@@ -207,8 +207,6 @@ function AldousBroderArray(map) {
 
     var i = randomRun(map.length) - 1; // starting cell row
     var x = randomRun(map[0].length) - 1; // starting cell column
-    //console.log("starting...");
-    //console.log("i: " + i + ", x: " + x);
     var next_i;
     var next_x;
     var cell = map[i][x];
@@ -222,8 +220,6 @@ function AldousBroderArray(map) {
     var canMoveRight = true;
     var canMoveLeft = true;
 
-    console.log("AldousBroderArray(map) - starting loop...");
-    
     while(visitedCells < cellCount) {
 
         
@@ -248,7 +244,6 @@ function AldousBroderArray(map) {
             next_i = i;
             next_x = x;
             move = randomRun(moves);
-            //debugger;
             switch(move) {
                 case 1: 
                     if(canMoveUp) { next_i += 1;direction="up";} else { next_i -= 1;direction="down";}; break;
@@ -259,9 +254,7 @@ function AldousBroderArray(map) {
                 case 4: 
                     if(canMoveLeft) { next_x -= 1;direction="left";} else { next_x += 1;direction="right";}; break;
             }            
-                
-            if (next_i == i && next_x == x) {console.log("ALERT!!!! i: " + i + ", x: " + x + ", next_i: " + next_i + ", next_x: " + next_x);}
-            
+                        
             nextCell = map[next_i][next_x];
 
             if(!nextCell.visited) {
@@ -306,18 +299,19 @@ function AldousBroderArray(map) {
         moves = 4;
     };   
 
+    return map;    
+}; // end function AldousBroderArray(map);
 
+function determineDJSteps(map) {
     // determine dj path
     // reset variables
-    i = 0;
-    x = 0;
+    var i = 0;
+    var x = 0;
     var global_djSteps = 1;
-    var current_djSteps = 1;
-    visitedCells = 0;
-    canMoveUp = true;
-    canMoveDown = true;
-    canMoveRight = true;
-    canMoveLeft = true;
+    var canMove = false;
+    var global_canMove = true;
+    // start at "entrance"
+    var cell = map[i][x];
 
     // resets "visited" marker
     for(var q=0;q<map.length;q++) {
@@ -325,14 +319,9 @@ function AldousBroderArray(map) {
             map[q][u].visited = false;
             if(map[q][u].entrance) {map[q][u].djSteps = global_djSteps;}
         }
-    } 
-    // start at "entrance"
-    cell = map[i][x];
-    var canMove = false;
-    var global_canMove = true;
+    }      
 
     while(global_canMove) {
-        //console.log(global_djSteps);
         for(var r=0;r<map.length;r++) {
             for(var c=0;c<map[r].length;c++) {
                 if(map[r][c].djSteps == global_djSteps) {
@@ -371,8 +360,15 @@ function AldousBroderArray(map) {
         global_djSteps += 1;
     }
 
+    return map;
+}; // end function determineDJSteps(map)
+
+function determinePath(map) {
     // now that we've set the dj steps we can set the path
     // reset some variables
+    var global_djSteps;
+    var cell;
+
     for(var r=0;r<map.length;r++) {
         for(var c=0;c<map[r].length;c++) {
             if(map[r][c].exit) {
@@ -383,8 +379,8 @@ function AldousBroderArray(map) {
     };
 
     var next_djSteps = global_djSteps - 1;
-    column = cell.column;
-    row = cell.row;
+    var column = cell.column;
+    var row = cell.row;
 
     while(global_djSteps>0) {
         cell.onPath = true;
@@ -411,7 +407,7 @@ function AldousBroderArray(map) {
 
 
     return map;
-}; // end function AldousBroderArray(map);
+}; // end function determinePath(map)
 /**************************
  * END ARRAY MAPPING FUNCTIONS 
 ***************************/
