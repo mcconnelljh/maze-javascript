@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Maze Generation</title>
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+        
+        <script src="maze.js"></script>
+        <style>
+            td {width: 40px;min-height: 40px;height: 40px;text-align: center;}
+            #entrance { border-bottom: none;background-color: greenyellow;}
+            .onpath { background-color: greenyellow;}
+            #exit {border-top: none;background-color: red;}
+        </style>
+
+<script>
+    
+
+
+function createMaze() {
+    $("#maze tr").remove(); 
+
+    var rows = document.getElementById('uiRows').value;
+    var columns = document.getElementById('uiColumns').value;
+
+    var map = mapArray(rows, columns);
+    
+    customTableFromArray("maze",map);  
+
+    document.getElementById('entrance').style.borderBottomStyle = "none";
+    document.getElementById('exit').style.borderTopStyle = "none";
+    
+};
+    
+ 
+</script>
+
+    </head>
+
+    <body>        
+        Rows:&nbsp;<input type="number" id="uiRows"  min="3" max="100" value="10" /><br />
+        Columns:&nbsp;<input type="number" id="uiColumns" min="3" max="50" value="10"/><br />
+        <button onclick="createMaze()">Create Maze</button>
+        <hr />
+        <table id="maze">
+        </table>
+    </body>
+</html>
