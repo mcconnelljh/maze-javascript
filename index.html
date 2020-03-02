@@ -26,12 +26,13 @@ function createMaze() {
     var columns = document.getElementById('uiColumns').value;
 
     var map = mapArray(rows, columns);
+    map = determineDJSteps(map);
+    map = determinePath(map);
     
     customTableFromArray("maze",map);  
 
     document.getElementById('entrance').style.borderBottomStyle = "none";
-    document.getElementById('exit').style.borderTopStyle = "none";
-    
+    document.getElementById('exit').style.borderTopStyle = "none";    
 };
     
  
