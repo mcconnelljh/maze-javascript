@@ -12,6 +12,7 @@
             td {width: 40px;min-height: 40px;height: 40px;text-align: center;}
             #entrance { border-bottom: none;background-color: greenyellow;}
             .onpath { background-color: greenyellow;}
+            .onpath_hidden { background-color: white !important;}
             #exit {border-top: none;background-color: red;}
         </style>
 
@@ -32,8 +33,50 @@ function createMaze() {
     customTableFromArray("maze",map);  
 
     document.getElementById('entrance').style.borderBottomStyle = "none";
-    document.getElementById('exit').style.borderTopStyle = "none";    
-};
+    document.getElementById('exit').style.borderTopStyle = "none";  
+    
+    document.getElementById('cbShowPath').checked = true;
+}; // end function createMaze()
+
+function togglePath() {
+    var cb = document.getElementById('cbShowPath');
+    var table = document.getElementById("maze");
+    var i = 0;
+    var x = 0;
+    var cell;
+
+    if(cb.checked) {
+        // show the path
+        for (var i = 0, row; row = table.rows[i]; i++) {
+                //iterate through rows
+                //rows would be accessed using the "row" variable assigned in the for loop
+                for (var j = 0, col; col = row.cells[j]; j++) {
+                    //iterate through columns
+                    //columns would be accessed using the "col" variable assigned in the for loop
+                    cell = row.cells[j];
+
+                    if (cell.className == "onpath_hidden") {
+                        cell.className = "onpath";
+                    }
+                }  
+        }
+    } else {
+        // hide the path
+        for (var i = 0, row; row = table.rows[i]; i++) {
+                //iterate through rows
+                //rows would be accessed using the "row" variable assigned in the for loop
+                for (var j = 0, col; col = row.cells[j]; j++) {
+                    //iterate through columns
+                    //columns would be accessed using the "col" variable assigned in the for loop
+                    cell = row.cells[j];
+
+                    if (cell.className == "onpath") {
+                        cell.className = "onpath_hidden";
+                    }
+                }  
+        }
+    }
+}; // end function togglePath()
     
  
 </script>
@@ -43,7 +86,8 @@ function createMaze() {
     <body>        
         Rows:&nbsp;<input type="number" id="uiRows"  min="3" max="100" value="10" /><br />
         Columns:&nbsp;<input type="number" id="uiColumns" min="3" max="50" value="10"/><br />
-        <button onclick="createMaze()">Create Maze</button>
+        <button onclick="createMaze()">Create Maze</button><br />
+        <label><input type="checkbox" id="cbShowPath" onchange="javascript:togglePath()" checked />&nbsp;Show Path</label>
         <hr />
         <table id="maze">
         </table>
