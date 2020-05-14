@@ -207,6 +207,10 @@ function AldousBroderArray(map) {
 
     var i = randomRun(map.length) - 1; // starting cell row
     var x = randomRun(map[0].length) - 1; // starting cell column
+
+    var start = randomRun(map[0].length - 1); // start cell
+    var end = randomRun(map[0].length - 1); // end cell
+
     var next_i;
     var next_x;
     var cell = map[i][x];
@@ -236,8 +240,8 @@ function AldousBroderArray(map) {
         cell.visited = true;
         
 
-        if(0 == i && 0 == x) { cell.entrance = true; }
-        if(i == (map.length - 1) && x == (map[0].length - 1)) { cell.exit = true; }
+        if(0 == i && start == x) { cell.entrance = true; }
+        if(i == (map.length - 1) && x == end) { cell.exit = true; }
         
         // this should be an impossible situation, but still worth checking
         if(moves > 0) {
@@ -279,8 +283,8 @@ function AldousBroderArray(map) {
                         break;
                 }
 
-                if(0 == next_i && 0 == next_x) { nextCell.entrance = true;}
-                if(next_i == (map.length - 1) && next_x == (map[0].length - 1)) { nextCell.exit = true;}
+                if(0 == next_i && start == next_x) { nextCell.entrance = true;}
+                if(next_i == (map.length - 1) && next_x == end) { nextCell.exit = true;}
             } 
             //move the active cell to the next cell
             map[i][x] = cell;
